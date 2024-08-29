@@ -38,6 +38,7 @@ body {
     margin-right: auto;
     border: 1px solid red;
     position: relative;
+    margin-bottom: 400px;
 }
 
 .areaSize {
