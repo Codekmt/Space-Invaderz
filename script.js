@@ -7,7 +7,7 @@ let speed = 40;
 
 let moveBy = 10;
 
-const gameAreaSize = 660;
+const gameAreaSize = 640;
 const playerSize = 40;
 
 let playerX = parseInt(window.getComputedStyle(mySquare).getPropertyValue('left'));
@@ -174,15 +174,12 @@ function moveEnemies() {
         const dy = playerY - enemyData.y;
         const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
         let velocity = 2;
-        if (timeElapsed > 10) {
+        if (timeElapsed > 200) {
             velocity += 1;
-            speed += 50;
         } if (timeElapsed > 400 ) {
             velocity += 1;
-            speed += 5;
         } if (timeElapsed > 600) {
             velocity += 1;
-            speed += 5;
         }
         let moveX = (dx / distanceToPlayer) * velocity;
         let moveY = (dy / distanceToPlayer) * velocity;
@@ -242,8 +239,8 @@ function loseLife() {
     lives--;
     livesDisplay.textContent = `Lives: ${lives}`
 
-    playerX = 320;
-    playerY = 320;
+    playerX = 310;
+    playerY = 310;
     mySquare.style.left = playerX + 'px';
     mySquare.style.top = playerY + 'px';
 
