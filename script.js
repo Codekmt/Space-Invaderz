@@ -26,7 +26,7 @@ let enemies = [];
 let timeElapsed = 0;
 setInterval(function() {
     timeElapsed++;
-    timer.innerHTML = `Point total: ${timeElapsed}`
+    timer.innerHTML = timeElapsed
 
 }, 1000)
 
@@ -238,7 +238,7 @@ function loseLife() {
 
     if (lives <= 0) {
         resetEnemies();
-        alert(`Game Over! Points total: ${timeElapsed}`);
+        alert(`Game Over! Points: ${timeElapsed}`);
         window.location.reload();
     }else{
         resetEnemies();
