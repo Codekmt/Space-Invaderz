@@ -7,7 +7,7 @@ let speed = 40;
 
 let moveBy = 10;
 
-const gameAreaSize = 720;
+const gameAreaSize = 660;
 const playerSize = 40;
 
 let playerX = parseInt(window.getComputedStyle(mySquare).getPropertyValue('left'));
@@ -242,8 +242,8 @@ function loseLife() {
     lives--;
     livesDisplay.textContent = `Lives: ${lives}`
 
-    playerX = 350;
-    playerY = 350;
+    playerX = 320;
+    playerY = 320;
     mySquare.style.left = playerX + 'px';
     mySquare.style.top = playerY + 'px';
 
