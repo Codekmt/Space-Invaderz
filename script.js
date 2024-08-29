@@ -6,7 +6,7 @@ let timer = document.getElementById('difference')
 
 let moveBy = 10;
 
-const gameAreaSize = 800;
+const gameAreaSize = 720;
 const playerSize = 40;
 
 let playerX = parseInt(window.getComputedStyle(mySquare).getPropertyValue('left'));
@@ -181,7 +181,7 @@ function createEnemy() {
 
 function moveEnemies() {
     enemies.forEach((enemyData, index) => {
-        const separationDistance = 50;
+        const separationDistance = 30;
         const enemy = enemyData.element;
         
         const dx = playerX - enemyData.x;
@@ -231,8 +231,8 @@ function loseLife() {
     lives--;
     livesDisplay.textContent = `Lives: ${lives}`
 
-    playerX = 400;
-    playerY = 400;
+    playerX = 350;
+    playerY = 350;
     mySquare.style.left = playerX + 'px';
     mySquare.style.top = playerY + 'px';
 
