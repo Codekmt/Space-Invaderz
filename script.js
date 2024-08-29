@@ -2,7 +2,8 @@ let mySquare = document.getElementById('mySquare');
 const gameArea = document.querySelector('.gameArea');
 let lives = 3;
 const livesDisplay = document.getElementById('lives');
-let timer = document.getElementById('difference')
+let timer = document.getElementById('difference');
+let speed = 40;
 
 let moveBy = 10;
 
@@ -28,7 +29,7 @@ setInterval(function() {
     timeElapsed++;
     timer.innerHTML = timeElapsed
 
-}, 1000)
+}, 100)
 
 // document.addEventListener('keydown', (e) => {
 //     switch (e.key) {
@@ -111,22 +112,6 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
-setInterval(() => {
-    if (keys.up && playerY > 0) {
-        playerY -= moveBy;
-    }
-    if (keys.down && playerY < gameAreaSize - 50) {
-        playerY += moveBy;
-    }
-    if (keys.left && playerX > 0) {
-        playerX -= moveBy;
-    }
-    if (keys.right && playerX < gameAreaSize - 50) {
-        playerX += moveBy;
-    }
-    mySquare.style.left = playerX + 'px';
-    mySquare.style.top = playerY + 'px';
-}, 40);
 
 
 // window.addEventListener('keyup', (e) => {
@@ -183,13 +168,21 @@ function moveEnemies() {
     enemies.forEach((enemyData, index) => {
         const separationDistance = 30;
         const enemy = enemyData.element;
+        let speed;
         
         const dx = playerX - enemyData.x;
         const dy = playerY - enemyData.y;
         const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
         let velocity = 2;
-        if (timeElapsed > 50) {
+        if (timeElapsed > 10) {
             velocity += 1;
+            speed += 50;
+        } if (timeElapsed > 400 ) {
+            velocity += 1;
+            speed += 5;
+        } if (timeElapsed > 600) {
+            velocity += 1;
+            speed += 5;
         }
         let moveX = (dx / distanceToPlayer) * velocity;
         let moveY = (dy / distanceToPlayer) * velocity;
@@ -226,6 +219,24 @@ function moveEnemies() {
 
     })
 }
+
+setInterval(() => {
+    if (keys.up && playerY > 0) {
+        playerY -= moveBy;
+    }
+    if (keys.down && playerY < gameAreaSize - 50) {
+        playerY += moveBy;
+    }
+    if (keys.left && playerX > 0) {
+        playerX -= moveBy;
+    }
+    if (keys.right && playerX < gameAreaSize - 50) {
+        playerX += moveBy;
+    }
+    mySquare.style.left = playerX + 'px';
+    mySquare.style.top = playerY + 'px';
+}, speed);
+
 
 function loseLife() {
     lives--;
