@@ -175,6 +175,7 @@ function moveEnemies() {
         
         const dx = playerX - enemyData.x;
         const dy = playerY - enemyData.y;
+
         const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
         let velocity = 2;
         if (score > 150) {
@@ -254,9 +255,9 @@ function loseLife() {
 
     if (lives <= 0) {
         resetEnemies();
+        window.location.reload();
         checkScore();
         alert(`Game Over! Points: ${score}`);
-        window.location.reload();
     }else{
         resetEnemies();
     }
