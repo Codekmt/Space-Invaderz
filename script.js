@@ -28,7 +28,7 @@ setInterval(function() {
 }, 100)
 
 function updateSpeedInterval() {
-    console.log(score);
+
     if (score % 50 === 0) {
         speed += 0.1;
     }
@@ -177,9 +177,13 @@ function moveEnemies() {
         const dy = playerY - enemyData.y;
         const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
         let velocity = 2;
-        if (score > 250) {
+        if (score > 150) {
             velocity += 1;
-        } if (score > 500 ) {
+        } if (score > 300 ) {
+            velocity += 1;
+        } if (score > 450) {
+            velocity += 1;
+        } if (score > 600) {
             velocity += 1;
         } if (score > 750) {
             velocity += 1;
