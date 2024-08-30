@@ -1,9 +1,15 @@
 let mySquare = document.getElementById('mySquare');
 const gameArea = document.querySelector('.gameArea');
+
 let lives = 3;
 const livesDisplay = document.getElementById('lives');
+
 let timer = document.getElementById('difference');
-let speed = 40;
+
+let speed = 1.4;
+
+const hiscores = JSON.parse(localStorage.getItem('hiscores')) || [];
+const scoreList = document.querySelector('.scoreTable');
 
 let moveBy = 10;
 
@@ -14,22 +20,20 @@ let playerX = parseInt(window.getComputedStyle(mySquare).getPropertyValue('left'
 let playerY = parseInt(window.getComputedStyle(mySquare).getPropertyValue('top'));
 let enemies = [];
 
-// const formatDate = (difference) => {
-//     let seconds = Math.floor((difference % (1000 * 60)) / 1000);
-//     timeElapsed.innerHTML = seconds;
-// }
-// let start = new Date();
-// let end = new Date();
-// let difference = end - start;
-// formatDate(difference);
-
-// setInterval(formatDate(difference), 1000)
-let timeElapsed = 0;
+let score = 0;
 setInterval(function() {
-    timeElapsed++;
-    timer.innerHTML = timeElapsed
-
+    score++;
+    timer.innerHTML = score;
+    updateSpeedInterval();
 }, 100)
+
+function updateSpeedInterval() {
+    console.log(score);
+    if (score % 50 === 0) {
+        speed += 0.1;
+    }
+    // console.log('speed value:', speed);
+}
 
 // document.addEventListener('keydown', (e) => {
 //     switch (e.key) {
@@ -166,19 +170,18 @@ function createEnemy() {
 
 function moveEnemies() {
     enemies.forEach((enemyData, index) => {
-        const separationDistance = 30;
+        const separationDistance = 20;
         const enemy = enemyData.element;
-        let speed;
         
         const dx = playerX - enemyData.x;
         const dy = playerY - enemyData.y;
         const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
         let velocity = 2;
-        if (timeElapsed > 200) {
+        if (score > 250) {
             velocity += 1;
-        } if (timeElapsed > 400 ) {
+        } if (score > 500 ) {
             velocity += 1;
-        } if (timeElapsed > 600) {
+        } if (score > 750) {
             velocity += 1;
         }
         let moveX = (dx / distanceToPlayer) * velocity;
@@ -207,7 +210,7 @@ function moveEnemies() {
 
         if (
             enemyData.x < playerX + 25 &&
-            enemyData.x + 20 > playerX &&
+            enemyData.x + 15 > playerX &&
             enemyData.y < playerY + 25 &&
             enemyData.y + 15 > playerY
         ) {
@@ -219,19 +222,20 @@ function moveEnemies() {
 
 setInterval(() => {
     if (keys.up && playerY > 0) {
-        playerY -= moveBy;
+        playerY -= speed;
     }
     if (keys.down && playerY < gameAreaSize - 50) {
-        playerY += moveBy;
+        playerY += speed;
     }
     if (keys.left && playerX > 0) {
-        playerX -= moveBy;
+        playerX -= speed;
     }
     if (keys.right && playerX < gameAreaSize - 50) {
-        playerX += moveBy;
+        playerX += speed;
     }
     mySquare.style.left = playerX + 'px';
     mySquare.style.top = playerY + 'px';
+    console.log('speed value:',speed);
 }, speed);
 
 
@@ -246,7 +250,8 @@ function loseLife() {
 
     if (lives <= 0) {
         resetEnemies();
-        alert(`Game Over! Points: ${timeElapsed}`);
+        checkScore();
+        alert(`Game Over! Points: ${score}`);
         window.location.reload();
     }else{
         resetEnemies();
@@ -260,11 +265,48 @@ function resetEnemies() {
     enemies = [];
 }
 
-setInterval(createEnemy, 1000);
+
+function populateTable() {
+    scoreList.innerHTML = hiscores.map((row) => {
+      return `<tr class="addedScores"><td>${row.clicker}</td><td>${row.score}</tr>`;
+    }).join('');
+  }
+
+function checkScore() {
+    let worstScore = 0;
+    if (hiscores.length > 4) {
+      worstScore = hiscores[hiscores.length - 1].score;
+    }
+    if (score > worstScore) {
+        let clicker = window.prompt(`${score} – Top score! What's your name?`);
+
+        while (clicker.length > 3) {
+            clicker = window.prompt(`${score} – Please try again, max 3 characters`);
+        }
+
+        if (clicker) {
+            hiscores.push({score, clicker});
+        }
+      }
+      hiscores.sort((a, b) => a.score > b.score ? -1 : 1);
+      if (hiscores.length > 5) {
+        hiscores.pop();
+      }
+      populateTable();
+  localStorage.setItem('hiscores', JSON.stringify(hiscores));
+    }
+
+function clearScores() {
+        hiscores.splice(0, hiscores.length);
+        localStorage.setItem('hiscores', JSON.stringify(hiscores));
+        populateTable();
+      }
 
 function gameLoop() {
     moveEnemies();
     requestAnimationFrame(gameLoop);
 }
 
+setInterval(createEnemy, 1000);
+populateTable();
 gameLoop();

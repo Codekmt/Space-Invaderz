@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Square Game</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.cdnfonts.com/css/arcade-classic" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -12,6 +13,12 @@
         <p>Use the arrow keys to move around</p>
     </header>
     <section>
+      <div class="hiscore">
+        <h2>HIGHSCORES</h2>
+        <table class="scoreTable"> 
+        </table>
+        <button onClick="clearScores()">Clear</button>
+      </div>
       <div class="gameArea">
         
         <div class="areaSize">
