@@ -311,6 +311,6 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
-setInterval(createEnemy, 1000);
+// setInterval(createEnemy, 1000);
 populateTable();
 gameLoop();
